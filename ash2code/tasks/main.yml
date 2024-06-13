@@ -1,0 +1,27 @@
+---
+# tasks file for ash2code
+
+- name: update packages
+  apt:
+    update_cache: yes
+
+- name: install nginx
+  service:
+    name: nginx
+    state: latest
+
+- name: clean nginx root directory
+  file:
+    path: /var/www/html
+    state: absent
+
+- name: create web directory
+  file:
+    path: /var/www/html
+    state: directory
+
+- name: git pull to web directory
+  git:
+    repo: https://github.com/ash2code/ansible-roles-nodejs-jenkins.git
+    dest: /var/www/html
+  notify: repo copy
